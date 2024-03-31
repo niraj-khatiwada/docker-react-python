@@ -8,6 +8,9 @@ services:
       - "${PORT}:3000"
     networks:
       - earth
+    volumes:
+      - /usr/app/node_modules
+      - ./frontend:/usr/app/frontend
 
   image-gallery-backend:
     build: ./api
@@ -16,6 +19,9 @@ services:
       - "${SERVER_PORT}:5050"
     networks:
       - earth
+    volumes:
+      - /usr/app/backend/.venv
+      - ./api:/usr/app/backend
     depends_on:
       - mongo
 
