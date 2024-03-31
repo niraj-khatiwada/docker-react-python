@@ -11,6 +11,7 @@ services:
     volumes:
       - /usr/app/node_modules
       - ./frontend:/usr/app/frontend
+    restart: always
 
   image-gallery-backend:
     build: ./api
@@ -22,18 +23,19 @@ services:
     volumes:
       - /usr/app/backend/.venv
       - ./api:/usr/app/backend
+    restart: always
     depends_on:
       - mongo
 
   mongo:
     image: mongo:latest
-    restart: always
     environment:
       - MONGO_INITDB_ROOT_USERNAME= "${MONGO_USERNAME}"
       - MONGO_INITDB_ROOT_PASSWORD= "${MONGO_PASSWORD}"
       - MONGO_INITDB_DATABASE = "${MONGO_DATABASE}"
     networks:
       - earth
+    restart: always
 
 networks:
   earth:
