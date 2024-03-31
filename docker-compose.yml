@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  image-gallery-frontend:
+    build: ./frontend
+    image: image-gallery-frontend
+    ports:
+      - "${PORT}:3000"
+    networks:
+      - earth
+
+  image-gallery-backend:
+    build: ./api
+    image: image-gallery-backend
+    ports:
+      - "${SERVER_PORT}:5050"
+    networks:
+      - earth
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME= "${MONGO_USERNAME}"
+      - MONGO_INITDB_ROOT_PASSWORD= "${MONGO_PASSWORD}"
+      - MONGO_INITDB_DATABASE = "${MONGO_DATABASE}"
+    networks:
+      - earth
+
+networks:
+  earth:
+    driver: bridge
+    name: earth
